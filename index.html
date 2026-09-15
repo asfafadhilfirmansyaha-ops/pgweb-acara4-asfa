@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LeafletJS</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <style>
+      html,
+      body,
+      #map {
+        height: 100%;
+        margin: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="map"></div>
+
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+    <script>
+      // Inisialisasi map
+      var map = L.map("map").setView([-6.7534397, 111.0401005], 1);
+
+      // Basemap
+      var osm = L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {
+          attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        },
+      );
+
+      var Esri_WorldImagery = L.tileLayer(
+        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        {
+          attribution:
+            "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
+        },
+      );
+
+      var rupabumiindonesia = L.tileLayer(
+        "https://geoservices.big.go.id/rbi/rest/services/BASEMAP/Rupabumi_Indonesia/MapServer/tile/{z}/{y}/{x}",
+        {
+          attribution: "Badan Informasi Geospasial",
+        },
+      );
+
+      var Google_Terrain = L.tileLayer(
+        "https://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}",
+        {
+          maxZoom: 20,
+          subdomains: ["mt0", "mt1", "mt2", "mt3"],
+          attribution: "Google",
+        },
+      );
+
+      var Google_Satellite = L.tileLayer(
+        "https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
+        {
+          maxZoom: 20,
+          subdomains: ["mt0", "mt1", "mt2", "mt3"],
+          attribution: "Google",
+        },
+      );
+
+      // Marker
+      var marker = L.marker([-6.7534397, 111.04010058]);
+      var marker2 = L.marker([-6.7100652, 111.0154724]);
+
+      // Menambahkan marker ke dalam peta
+      marker.addTo(map);
+      marker2.addTo(map);
+
+      // Popup Marker
+      marker.bindPopup(
+        "<b>Pati</b><br>Kabupaten Pati merupakan salah satu kabupaten di Provinsi Jawa Tengah yang terletak di jalur Pantai Utara (Pantura) Pulau Jawa. Kabupaten Pati memiliki luas sekitar 1.503,68 km² dan terdiri atas 21 kecamatan. Wilayahnya berbatasan dengan Laut Jawa di utara, Kabupaten Rembang di timur, Kabupaten Grobogan dan Blora di selatan, serta Kabupaten Kudus dan Jepara di barat. Kondisi wilayahnya beragam, mulai dari pesisir, dataran rendah, hingga perbukitan. Sebagian besar wilayah dimanfaatkan untuk pertanian, sedangkan sektor perikanan, perdagangan, industri, dan pariwisata juga berkembang. Kecamatan Pati menjadi pusat pemerintahan dan aktivitas perkotaan di Kabupaten Pati.",
+      );
+      marker.openPopup();
+
+      marker2.bindPopup(
+        "<b>Tlogowungu</b><br>Kecamatan Tlogowungu merupakan salah satu kecamatan yang terletak di Kabupaten Pati, Jawa Tengah.",
+      );
+
+      // Tooltip Marker
+      marker.bindTooltip("Pati");
+      marker2.bindTooltip("Tlogowungu");
+
+      // Circle
+      var circle = L.circle([-6.7534397, 111.04010058], {
+        color: "red",
+        opacity: 1,
+        fillColor: "#f03",
+        fillOpacity: 0.5,
+        radius: 1000,
+      });
+
+      // Menambahkan circle ke dalam peta
+      circle.addTo(map);
+
+      // Popup Circle
+      circle.bindPopup("<b>Hallo</b><br>Ini adalah popup circle radius 1 km");
+      circle.openPopup();
+
+      // Tooltip Circle
+      circle.bindTooltip("ini circle", { sticky: true });
+      circle.openTooltip();
+
+      // Polyline
+      var vertexPolyline = [
+        [-6.7882094, 111.0850811],
+        [-6.766353, 111.0073185],
+        [-6.7471647, 111.0213947],
+      ];
+      var polyline = L.polyline(vertexPolyline, {
+        color: "red",
+        weight: 3,
+        opacity: 1,
+      });
+
+      // Menambahkan polyline ke dalam peta
+      polyline.addTo(map);
+
+      // Popup Polyline
+      polyline.bindPopup("<b>Polyline</b><br>Ini adalah rute polyline");
+
+      // Tooltip Polyline
+      polyline.bindTooltip("ini polyline", { sticky: true });
+
+      // Polygon
+      var vertexPolygon = [
+        [-6.7185509, 111.0570145],
+        [-6.7258004, 111.0555553],
+        [-6.7292971, 111.0620785],
+        [-6.7271649, 111.0716057],
+        [-6.7199155, 111.0664558],
+      ];
+
+      var polygon = L.polygon(vertexPolygon, {
+        color: "purple",
+        weight: 3,
+        opacity: 1,
+        fillColor: "#0f3",
+        fillOpacity: 0.5,
+      });
+
+      // Menambahkan polygon ke dalam peta
+      polygon.addTo(map);
+
+      // Popup Polygon
+      polygon.bindPopup("<b>Polygon Area</b><br>Ini adalah area polygon");
+
+      // Tooltip Polygon
+      polygon.bindTooltip("ini polygon", { sticky: true });
+
+      // Menambahkan basemap utama ke dalam peta
+      Esri_WorldImagery.addTo(map);
+
+      // Control Layer
+      var baseMaps = {
+        OpenStreetMap: osm,
+        "Esri World Imagery": Esri_WorldImagery,
+        "Rupa Bumi Indonesia": rupabumiindonesia,
+        Google_Terrain: Google_Terrain,
+        Google_Satellite: Google_Satellite,
+      };
+
+      var overlayMaps = {
+        Pati: marker,
+        " Tlogowungu": marker2,
+        "Circle Radius": circle,
+        Polyline: polyline,
+        Polygon: polygon,
+      };
+
+      var controllayer = L.control.layers(baseMaps, overlayMaps, {
+        collapsed: false,
+      });
+      controllayer.addTo(map);
+
+      // Menambahkan skala peta
+      L.control
+        .scale({
+          position: "bottomleft",
+          metric: true,
+          imperial: false,
+        })
+        .addTo(map);
+
+      // Auto-fit tampilan peta supaya seluruh fitur masuk di layar
+      var group = L.featureGroup([marker, marker2, circle, polyline, polygon]);
+      map.fitBounds(group.getBounds());
+    </script>
+  </body>
+</html>
